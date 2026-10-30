@@ -1,1 +1,78 @@
 
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#17152b">
+<title>Mira AI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#11101d;color:#fff;font-family:Arial,sans-serif;min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:600px;min-height:100vh;padding:22px 16px;display:flex;flex-direction:column}
+header{text-align:center;padding:24px 0}
+.avatar{width:76px;height:76px;margin:auto;border-radius:50%;display:grid;place-items:center;font-size:36px;background:linear-gradient(135deg,#a78bfa,#ec4899);box-shadow:0 0 35px #a78bfa55}
+h1{margin:14px 0 5px;font-size:30px}
+.sub{color:#aaa6c5;font-size:14px}
+.status{color:#a78bfa;font-size:12px;margin-top:10px}
+.chat{flex:1;padding:15px 0;display:flex;flex-direction:column;gap:14px}
+.msg{padding:14px 16px;border-radius:18px;max-width:88%;line-height:1.5;font-size:15px}
+.mira{background:#25223b;align-self:flex-start;border-bottom-left-radius:5px}
+.me{background:#6848b8;align-self:flex-end;border-bottom-right-radius:5px}
+.controls{display:flex;gap:9px;padding:12px 0}
+input{min-width:0;flex:1;border:1px solid #393451;background:#211e33;color:white;border-radius:25px;padding:15px;font-size:15px;outline:none}
+button{border:0;border-radius:25px;padding:0 17px;background:#9870ed;color:white;font-size:18px;cursor:pointer}
+button:active{opacity:.7}
+.note{text-align:center;color:#77738d;font-size:11px;padding:8px}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="avatar">✦</div>
+<h1>Mira</h1>
+<div class="sub">Sora ta AI, mereu aici să te asculte.</div>
+<div class="status">● Interfață pornită</div>
+</header>
+<main class="chat" id="chat">
+<div class="msg mira">Bună! Eu sunt Mira. Mă bucur că ne cunoaștem! 💜<br>Aceasta este prima mea versiune. Putem începe să construim împreună.</div>
+</main>
+<div class="controls">
+<input id="message" placeholder="Scrie-i Mirei..." autocomplete="off">
+<button onclick="sendMessage()" aria-label="Trimite">➤</button>
+<button onclick="speak()" aria-label="Voce">🎙</button>
+</div>
+<div class="note">Mira AI · Prima versiune demonstrativă</div>
+</div>
+<script>
+function sendMessage(){
+ const input=document.getElementById('message');
+ const value=input.value.trim();
+ if(!value)return;
+ addMessage(value,'me');
+ input.value='';
+ addMessage('Am primit mesajul tău! Încă învăț. Pentru conversații inteligente trebuie să-mi conectăm un serviciu AI. 💜','mira');
+}
+function addMessage(text,kind){
+ const el=document.createElement('div');
+ el.className='msg '+kind;
+ el.textContent=text;
+ const chat=document.getElementById('chat');
+ chat.appendChild(el);
+ chat.scrollTop=chat.scrollHeight;
+}
+document.getElementById('message').addEventListener('keydown',e=>{
+ if(e.key==='Enter')sendMessage();
+});
+function speak(){
+ if(!('speechSynthesis' in window)){
+ alert('Vocea nu este disponibilă în acest browser.');
+ return;
+ }
+ const utterance=new SpeechSynthesisUtterance('Bună! Eu sunt Mira. Mă bucur că ne cunoaștem!');
+ utterance.lang='ro-RO';
+ speechSynthesis.speak(utterance);
+}
+</script>
+</body>
+</html
